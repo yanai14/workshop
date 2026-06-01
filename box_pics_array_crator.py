@@ -128,7 +128,7 @@ def plot_sessions(csv_path,filter_csv_pd,All,bins,out_file):
             )
 
             H = (H > 0).astype(np.uint16)
-            if True:
+            if False:
                 fig, ax = plt.subplots(figsize=(7, 7))
 
                 im = ax.pcolormesh(

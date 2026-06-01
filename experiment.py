@@ -181,14 +181,18 @@ def func6(arr1, arr2):
     return max_norm
 
 
-def test_stat_pair(pic_arr1, pic_arr2,i_eq_j=True,func=func1):
+def test_stat_pair(pic_arr1, pic_arr2,nc2,func=func1):
     result_arr=[]
-    for i in range(0,len(pic_arr1)):
-        for j in range(0,len(pic_arr2)):
-            if i_eq_j==False:
-                if i!=j :
-                    result_arr.append(func(pic_arr1[i],pic_arr2[j]))
-            else:
+
+    if nc2:
+        print(("nc2"))
+        for i in range(0,len(pic_arr1)):
+            for j in range(i+1,len(pic_arr2)):
+                result_arr.append(func(pic_arr1[i],pic_arr2[j]))
+    else:
+        print(("not nc2"))
+        for i in range(0,len(pic_arr1)):
+            for j in range(0,len(pic_arr2)):
                 result_arr.append(func(pic_arr1[i],pic_arr2[j]))
     # Stats
     mean = np.mean(result_arr)
@@ -247,11 +251,11 @@ if __name__ == "__main__":
     )
     parser.add_argument("--file1",   help="Path to .npy file #1")
     parser.add_argument("--file2",   help="Path to .npy file #2")
-    parser.add_argument('--i_eq_j', action='store_true', default=False)
+    parser.add_argument('--nc2', action='store_true', default=False)
     args = parser.parse_args()
     data1 = np.load(args.file1)
     data2 = np.load(args.file2)
 
     test_stat_solo(data1,lambda x:np.sum(x))
     #test_stat_solo(data2, lambda x: np.sum(x))
-    test_stat_pair(data1,data2,args.i_eq_j,func1)
+    test_stat_pair(data1,data2,args.nc2,func1)
