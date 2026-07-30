@@ -21,21 +21,35 @@ def yot(HAR_name):
         )
 
         page = context.new_page()
+        cdp = context.new_cdp_session(page)
+        cdp.send("Network.enable")
+        cdp.send("Network.setCacheDisabled", {"cacheDisabled": True})
+        def on_response(event):
+            response = event.get("response", {})
+            url = response.get("url")
+            status = response.get("status")
+            from_cache = (status==304)
 
+            source = "CACHED" if from_cache else "FETCHED FROM SERVER"
+            if from_cache:
+                print(f"[{status}] {source}: {url[:80]}")
+
+        cdp.on("Network.responseReceived", on_response)
         page.goto(
             "https://soundcloud.com/",
             wait_until="load",
         )
-        for i in range(60):
-            # Click "Reject all" cookie button if it appears
-            try:
-                page.locator("#onetrust-accept-btn-handler").wait_for(
-                    state="visible", timeout=10000
-                )
-                page.locator("#onetrust-accept-btn-handler").click()
-                print("Clicked 'Reject all'")
-            except TimeoutError:
-                print("'Reject all' button not found")
+        # Click "Reject all" cookie button if it appears
+        try:
+            page.locator("#onetrust-accept-btn-handler").wait_for(
+                state="visible", timeout=1000
+            )
+            page.locator("#onetrust-accept-btn-handler").click()
+            print("Clicked 'Reject all'")
+        except TimeoutError:
+            print("'Reject all' button not found")
+
+        for i in range(0):
 
             # Click "Directory"
             page.locator('a[href="/people/directory"]').click()
@@ -57,23 +71,36 @@ def yot(HAR_name):
             # Go back to the home page
             page.go_back(wait_until="load")
             time.sleep(2)
+        for i in range(4):
 
-        page.goto(
-            "https://on.soundcloud.com/rakZPRfwxJ0xotFC24",
-            wait_until="load",
-        )
-
-
-
-        # Click the modal close button if it appears
-        try:
-            page.locator("button.modal__closeButton").wait_for(
-                state="visible", timeout=10000
+            page.goto(
+                "https://on.soundcloud.com/rakZPRfwxJ0xotFC24",
+                wait_until="load",
             )
-            page.locator("button.modal__closeButton").click()
-            print("Clicked close button")
-        except TimeoutError:
-            print("Close button not found")
+            st_time = time.time()
+
+            while time.time() - st_time < 20:
+                print(time.time() - st_time)
+                page.wait_for_timeout(abs(random.gauss(1000, 10)))
+                try:
+                    page.locator("button.modal__closeButton").wait_for(
+                        state="visible", timeout=100
+                    )
+                    page.locator("button.modal__closeButton").click()
+                    print("Clicked close button")
+                except TimeoutError:
+                    print("Close button not found")
+
+                try:
+                    page.locator('a.sc-button-play.playButton.sc-button.sc-button-xxlarge[title="Play"]').wait_for(
+                        state="visible", timeout=100)
+
+                    page.locator('a.sc-button-play.playButton.sc-button.sc-button-xxlarge[title="Play"]').click()
+                    print("Clicked play button")
+                except TimeoutError:
+                    print("play button not found")
+
+
 
         input("Press enter to continue...")
 

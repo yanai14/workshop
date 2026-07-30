@@ -5,14 +5,9 @@ from playwright.sync_api import TimeoutError
 import time
 import argparse
 import random
-from trio import sleep
-mean = 0.0
-std_dev = 1000.0
 
-# Generate a single scalar sample
-noise_sample = random.gauss(mean, std_dev)
 
-def yot(HAR_name):
+def play(HAR_name):
     with (sync_playwright() as p):
         # Channel can be "chrome", "msedge", "chrome-beta", "msedge-beta" or "msedge-dev".
         browser = p.chromium.launch(channel="chrome",
@@ -64,7 +59,7 @@ def yot(HAR_name):
 
         page.goto("https://www.youtube.com/watch?v=EgzWLBCQUtI",wait_until="load")
         for i in range(2):
-            page.wait_for_timeout(3500+random.gauss(mean, std_dev))
+            page.wait_for_timeout(3500+abs(random.gauss(0, 1000)))
 
             try:
                 sponsored = page.locator(".ytp-ad-module")
@@ -93,19 +88,19 @@ def yot(HAR_name):
                 print("No ad")
 
             setting = page.locator(".ytp-settings-button")
-            page.wait_for_timeout(random.gauss(2000, 1000))
+            page.wait_for_timeout(abs(random.gauss(2000, 1000)))
             setting.hover()
-            page.wait_for_timeout(random.gauss(10, 100))
+            page.wait_for_timeout(abs(random.gauss(10, 100)))
             setting.click()
             Q = page.get_by_text("Quality").nth(0)
-            page.wait_for_timeout(random.gauss(2000, 1000))
+            page.wait_for_timeout(abs(random.gauss(2000, 1000)))
             Q.hover()
-            page.wait_for_timeout(random.gauss(10, 100))
+            page.wait_for_timeout(abs(random.gauss(10, 100)))
             Q.click()
             Q7 = page.get_by_text("1080p")
-            page.wait_for_timeout(random.gauss(2000, 1000))
+            page.wait_for_timeout(abs(random.gauss(2000, 1000)))
             Q7.hover()
-            page.wait_for_timeout(random.gauss(10, 100))
+            page.wait_for_timeout(abs(random.gauss(10, 100)))
             Q7.click()
             st_time = time.time()
             while time.time() - st_time < 20:
@@ -163,4 +158,4 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--output_name', required=True, )
     args = parser.parse_args()
-    yot(args.output_name)
+    play(args.output_name)
