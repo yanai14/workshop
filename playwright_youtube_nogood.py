@@ -31,7 +31,7 @@ def yt(HAR_name):
         page.goto("https://www.youtube.com/", wait_until="load")
 
 
-        for i in range(1):
+        for i in range(0):
             # Open the guide (hamburger menu)
             page.locator("ytd-masthead #guide-button").click()
 
@@ -102,7 +102,6 @@ def yt(HAR_name):
             Q7.hover()
             page.wait_for_timeout(10+abs(random.gauss(0, 100)))
             Q7.click()
-
             st_time = time.time()
             while time.time() - st_time < 20:
                 try:

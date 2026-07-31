@@ -3,11 +3,11 @@ import random
 from playwright.sync_api import sync_playwright
 import time
 import argparse
+import random
 
-from trio import sleep
 
 
-def yot(HAR_name):
+def yt(HAR_name):
     with (sync_playwright() as p):
         # Channel can be "chrome", "msedge", "chrome-beta", "msedge-beta" or "msedge-dev".
         browser = p.chromium.launch(channel="chrome",
@@ -25,18 +25,23 @@ def yot(HAR_name):
         page = context.new_page()
         page.goto("https://www.youtube.com/watch?v=cO997sPYZ9U",wait_until="load")
 
-
         setting = page.locator(".ytp-settings-button")
+        page.wait_for_timeout(1000 + abs(random.gauss(0, 1000)))
         setting.hover()
+        page.wait_for_timeout(10 + abs(random.gauss(0, 100)))
         setting.click()
         Q = page.get_by_text("Quality").nth(0)
+        page.wait_for_timeout(1000 + abs(random.gauss(0, 1000)))
         Q.hover()
+        page.wait_for_timeout(10 + abs(random.gauss(0, 100)))
         Q.click()
         Q7 = page.get_by_text("1080p")
+        page.wait_for_timeout(1000 + abs(random.gauss(0, 1000)))
         Q7.hover()
+        page.wait_for_timeout(10 + abs(random.gauss(0, 100)))
         Q7.click()
         st_time = time.time()
-        while time.time() - st_time < 70:
+        while time.time() - st_time < 20:
             play=page.locator("button[class='ytp-play-button ytp-button']")
             if play.get_attribute("data-title-no-tooltip")=="Play":
                 play.hover()
@@ -61,4 +66,4 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--output_name', required=True, )
     args = parser.parse_args()
-    yot(args.output_name)
+    yt(args.output_name)

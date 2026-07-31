@@ -4,7 +4,7 @@ import time
 from playwright.sync_api import sync_playwright, TimeoutError
 
 
-def yot(HAR_name):
+def play(HAR_name):
     with sync_playwright() as p:
         browser = p.chromium.launch(
             channel="chrome",
@@ -24,17 +24,7 @@ def yot(HAR_name):
         cdp = context.new_cdp_session(page)
         cdp.send("Network.enable")
         cdp.send("Network.setCacheDisabled", {"cacheDisabled": True})
-        def on_response(event):
-            response = event.get("response", {})
-            url = response.get("url")
-            status = response.get("status")
-            from_cache = (status==304)
 
-            source = "CACHED" if from_cache else "FETCHED FROM SERVER"
-            if from_cache:
-                print(f"[{status}] {source}: {url[:80]}")
-
-        cdp.on("Network.responseReceived", on_response)
         page.goto(
             "https://soundcloud.com/",
             wait_until="load",
@@ -102,7 +92,6 @@ def yot(HAR_name):
 
 
 
-        input("Press enter to continue...")
 
         page.close()
         context.close()
@@ -110,4 +99,7 @@ def yot(HAR_name):
 
 
 if __name__ == "__main__":
-    yot("ddd")
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--output_name', required=True, )
+    args = parser.parse_args()
+    play(args.output_name)
