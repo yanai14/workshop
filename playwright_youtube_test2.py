@@ -31,7 +31,7 @@ def yt(HAR_name):
         page.goto("https://www.youtube.com/", wait_until="load")
 
 
-        for i in range(1):
+        for i in range(10):
             # Open the guide (hamburger menu)
             page.locator("ytd-masthead #guide-button").click()
 
@@ -57,8 +57,8 @@ def yt(HAR_name):
 
 
 
-        page.goto("https://www.youtube.com/watch?v=EgzWLBCQUtI",wait_until="load")
-        for i in range(2):
+        page.goto("https://www.youtube.com/watch?v=7bOptq-NPJQ",wait_until="load")
+        for i in range(20):
             page.wait_for_timeout(3500+abs(random.gauss(0, 1000)))
 
             try:
@@ -104,7 +104,7 @@ def yt(HAR_name):
             Q7.click()
 
             st_time = time.time()
-            while time.time() - st_time < 20:
+            while time.time() - st_time < 31:
                 try:
                     play=page.locator("button[class='ytp-play-button ytp-button']")
                     if play.get_attribute("data-title-no-tooltip")=="Play":

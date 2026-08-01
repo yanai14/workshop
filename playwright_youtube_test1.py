@@ -23,7 +23,7 @@ def yt(HAR_name):
             record_har_path=HAR_name
         )
         page = context.new_page()
-        page.goto("https://www.youtube.com/watch?v=cO997sPYZ9U",wait_until="load")
+        page.goto("https://www.youtube.com/watch?v=7bOptq-NPJQ",wait_until="load")
 
         setting = page.locator(".ytp-settings-button")
         page.wait_for_timeout(1000 + abs(random.gauss(0, 1000)))
@@ -41,7 +41,7 @@ def yt(HAR_name):
         page.wait_for_timeout(10 + abs(random.gauss(0, 100)))
         Q7.click()
         st_time = time.time()
-        while time.time() - st_time < 20:
+        while time.time() - st_time < 31:
             play=page.locator("button[class='ytp-play-button ytp-button']")
             if play.get_attribute("data-title-no-tooltip")=="Play":
                 play.hover()

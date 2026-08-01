@@ -69,7 +69,7 @@ def play(HAR_name):
             )
             st_time = time.time()
 
-            while time.time() - st_time < 20:
+            while time.time() - st_time < 31:
                 print(time.time() - st_time)
                 page.wait_for_timeout(abs(random.gauss(1000, 10)))
                 try:

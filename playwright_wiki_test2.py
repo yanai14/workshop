@@ -42,17 +42,17 @@ def wiki(HAR_name):
             page.go_back()
 
         for i in range(2):
-            page.goto("https://en.wikipedia.org/wiki/Artificial_intelligence",wait_until="networkidle")
+            page.goto("https://en.wikipedia.org/wiki/Artificial_intelligence", wait_until="networkidle")
             link = page.get_by_role("link", name="computational systems").first
-            page.wait_for_timeout(1500 + abs(random.gauss(0, 1000)))
+            page.wait_for_timeout(4000 + (random.gauss(0, 1000)))
             link.click()
             link = page.get_by_role("link", name="machine").first
-            page.wait_for_timeout(1500 + abs(random.gauss(0, 1000)))
+            page.wait_for_timeout(4000 + (random.gauss(0, 1000)))
             link.click()
             link = page.get_by_role("link", name="thermodynamic system").first
-            page.wait_for_timeout(1500 + abs(random.gauss(0, 1000)))
+            page.wait_for_timeout(4000 + (random.gauss(0, 1000)))
             link.click()
-            page.wait_for_timeout(1500 + abs(random.gauss(0, 1000)))
+            page.wait_for_timeout(4000 + (random.gauss(0, 1000)))
 
 
         page.close()
