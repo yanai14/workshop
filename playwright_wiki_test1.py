@@ -22,17 +22,17 @@ def wiki(HAR_name):
             record_har_path=HAR_name
         )
         page = context.new_page()
-        page.goto("https://www.wikipedia.org/",wait_until="networkidle")
-        time.sleep(5)
-        srch=page.locator("input[name='search']")
-        srch.fill("Machine learning")
-        srch.press("Enter")
-        time.sleep(5)
-        link = page.locator("a[title='Artificial intelligence']").nth(5)
-        link.scroll_into_view_if_needed()
+        page.goto("https://en.wikipedia.org/wiki/Artificial_intelligence",wait_until="networkidle")
+        link = page.get_by_role("link", name="computational systems").first
+        page.wait_for_timeout(4000 + (random.gauss(0, 1000)))
         link.click()
-        time.sleep(5)
-        print(page.title())
+        link = page.get_by_role("link", name="machine").first
+        page.wait_for_timeout(4000 + (random.gauss(0, 1000)))
+        link.click()
+        link = page.get_by_role("link", name="thermodynamic system").first
+        page.wait_for_timeout(4000 + (random.gauss(0, 1000)))
+        link.click()
+        page.wait_for_timeout(4000 + (random.gauss(0, 1000)))
         page.close()
         context.close()
         browser.close()

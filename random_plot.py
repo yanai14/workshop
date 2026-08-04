@@ -77,16 +77,16 @@ def main():
         arr = data[arr_idx]
         h, w = arr.shape
         bin_len=5
-        xedges = np.linspace(0, 1400, w + 1)  # 301 values from 0 to 1400
-        yedges = np.linspace(0, 1400, h + 1)  # 301 values from 0 to 1400
+        xedges = np.linspace(0, 1500, w + 1)  # 301 values from 0 to 1400
+        yedges = np.linspace(0, 1500, h + 1)  # 301 values from 0 to 1400
         mesh = ax.pcolormesh(
             xedges,  # X edges
             yedges,  # Y edges
             arr,
-            cmap='hot_r',
+            cmap='viridis',
             shading='auto'
         )
-
+        fig.colorbar(mesh, ax=ax, label="Count")
         ax.set_title(f"Index {arr_idx}")
         ax.set_aspect('equal')
         for ax in axes_flat[args.n:]:
