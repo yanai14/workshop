@@ -46,7 +46,7 @@ def plot_sessions(csv_path,bins,TPS,DELTA_T,out_file):
             print(csv_path,(i/num_conn)*100,"%")
             conn_dataset=[]
 
-            for t in range(max(int(ts[-1] / DELTA_T - TPS / DELTA_T),0)+1):#changed from original need at least 60 sec
+            for t in range(max(int(ts[-1] / DELTA_T - TPS / DELTA_T),0)+1):
                 mask = ((ts >= t * DELTA_T) & (ts <= (t * DELTA_T + TPS)))
                 # print t * DELTA_T, t * DELTA_T + TPS, ts[-1]
                 ts_mask = ts[mask]
