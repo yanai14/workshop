@@ -32,10 +32,11 @@ def play(HAR_name):
         )
         # Click  cookie button if it appears
         try:
-            page.locator("#onetrust-accept-btn-handler").wait_for(
-                state="visible", timeout=1200
-            )
-            page.locator("#onetrust-accept-btn-handler").click()
+            cooki_butten=page.locator("#onetrust-accept-btn-handler")
+            cooki_butten.wait_for(state="visible")
+            while cooki_butten.is_visible():
+                cooki_butten.click()
+                page.wait_for_timeout(500)
             print("Clicked 'Reject all'")
         except TimeoutError:
             print("'Reject all' button not found")
@@ -45,10 +46,11 @@ def play(HAR_name):
             print(time.time() - st_time)
             page.wait_for_timeout(abs(random.gauss(1000, 10)))
             try:
-                page.locator("button.modal__closeButton").wait_for(
-                    state="visible", timeout=100
-                )
-                page.locator("button.modal__closeButton").click()
+                close_butten=page.locator("button.modal__closeButton")
+                close_butten.wait_for(state="visible")
+                while close_butten.is_visible():
+                    close_butten.click()
+                    page.wait_for_timeout(500)
                 print("Clicked close button")
             except TimeoutError:
                 print("Close button not found")
